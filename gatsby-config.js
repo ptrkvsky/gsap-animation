@@ -7,11 +7,32 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
+      resolve: 'gatsby-source-prismic-graphql',
+      options: {
+        repositoryName: 'draw-me-a-sheep', // (required)
+        path: '/preview', // (optional, default: /preview)
+        previews: false, // (optional, default: false)
+        sharpKeys: [
+          /image|photo|picture/, // (default)
+          'main_image',
+        ],
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
         path: `${__dirname}/src/images`,
       },
+    },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/Layout.jsx`),
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-transition-link',
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -25,6 +46,20 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-emotion`,
+      options: {
+        // Accepts all options defined by `babel-plugin-emotion` plugin.
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Inria Serif'],
+        },
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
